@@ -7,7 +7,9 @@ df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/main
 # Título del dashboard
 st.title("📊 Dashboard Ventas - Grupo 59")
 
-# Filtros dentro de un expander
+# ---------------------------
+# Fila 1: filtros principales
+# ---------------------------
 with st.expander("🔍 Filtros", expanded=False):
     col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -26,14 +28,31 @@ with st.expander("🔍 Filtros", expanded=False):
     with col5:
         clientes_sel = st.multiselect("Cliente", df["Customer type"].unique(), default=df["Customer type"].unique())
 
-# Aplicar filtros
+    # ---------------------------
+    # Fila 2: filtro por rango de fechas
+    # ---------------------------
+    st.markdown("---")
+    col6, _ = st.columns([2, 3])  # alineado a la izquierda
+
+    with col6:
+        fecha_min = df["Date"].min()
+        fecha_max = df["Date"].max()
+        fecha_inicio, fecha_fin = st.date_input("Rango de fechas", value=(fecha_min, fecha_max), min_value=fecha_min, max_value=fecha_max)
+
+# ---------------------------
+# Filtrar datos según todos los filtros
+# ---------------------------
 df_filtrado = df[
-    df["City"].isin(ciudades_sel) &
-    df["Gender"].isin(generos_sel) &
-    df["Payment"].isin(pagos_sel) &
-    df["Product line"].isin(productos_sel) &
-    df["Customer type"].isin(clientes_sel)
+    (df["City"].isin(ciudades_sel)) &
+    (df["Gender"].isin(generos_sel)) &
+    (df["Payment"].isin(pagos_sel)) &
+    (df["Product line"].isin(productos_sel)) &
+    (df["Customer type"].isin(clientes_sel)) &
+    (df["Date"] >= pd.to_datetime(fecha_inicio)) &
+    (df["Date"] <= pd.to_datetime(fecha_fin))
 ]
 
-# Mostrar tabla
+# ---------------------------
+# Mostrar datos filtrados
+# ---------------------------
 st.dataframe(df_filtrado)
