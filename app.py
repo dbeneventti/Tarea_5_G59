@@ -63,7 +63,7 @@ col1, col2, col3 = st.columns(3)
 
 # Gráfico 1: Evolución de ventas
 with col1:
-    st.subheader("Evolución de Ventas")
+    #st.subheader("Evolución de Ventas")
     ventas_diarias = df_filtrado.groupby("Date")["Total"].sum().reset_index()
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     sns.lineplot(data=ventas_diarias, x="Date", y="Total", marker="o", ax=ax1)
@@ -78,7 +78,7 @@ with col1:
 
 # Gráfico 2: Ingresos por línea de producto
 with col2:
-    st.subheader("Ventas por Producto")
+    #st.subheader("Ventas por Producto")
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     sns.barplot(data=df_filtrado, x="Product line", y="Total", estimator=sum, errorbar=None, ax=ax2)
     ax2.set_title("Ingresos por Línea de Producto", loc="center")
@@ -90,7 +90,7 @@ with col2:
 
 # Gráfico 3: Distribución de rating
 with col3:
-    st.subheader("Distribución de Calificaciones")
+    #st.subheader("Distribución de Calificaciones")
     fig3, ax3 = plt.subplots(figsize=(6, 4))
     sns.histplot(df_filtrado["Rating"], bins=20, kde=True, color="skyblue", ax=ax3)
     ax3.set_title("Distribución de Ratings", loc="center")
