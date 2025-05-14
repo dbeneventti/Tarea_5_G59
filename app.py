@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from datetime import date
 
 # Cargar datos
 df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/main/data.csv", parse_dates=["Date"])
@@ -8,7 +9,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/main
 st.title("📊 Dashboard Ventas - Grupo 59")
 
 # ---------------------------
-# Fila 1: filtros principales
+# Filtros
 # ---------------------------
 with st.expander("🔍 Filtros", expanded=False):
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -28,15 +29,13 @@ with st.expander("🔍 Filtros", expanded=False):
     with col5:
         clientes_sel = st.multiselect("Cliente", df["Customer type"].unique(), default=df["Customer type"].unique())
 
-    # ---------------------------
-    # Fila 2: filtro por rango de fechas con slider
-    # ---------------------------
     st.markdown("---")
-    col6, _ = st.columns([2, 3])  # alineado a la izquierda
-    
+
+    # Filtro de fechas con slider (segunda fila)
+    col6, _ = st.columns([2, 3])  # más espacio a la izquierda
     with col6:
-        fecha_min = df["Date"].min()
-        fecha_max = df["Date"].max()
+        fecha_min = df["Date"].min().date()
+        fecha_max = df["Date"].max().date()
         fecha_inicio, fecha_fin = st.slider(
             "Selecciona el rango de fechas",
             min_value=fecha_min,
@@ -46,7 +45,7 @@ with st.expander("🔍 Filtros", expanded=False):
         )
 
 # ---------------------------
-# Filtrar datos según todos los filtros
+# Filtrar datos
 # ---------------------------
 df_filtrado = df[
     (df["City"].isin(ciudades_sel)) &
@@ -54,10 +53,13 @@ df_filtrado = df[
     (df["Payment"].isin(pagos_sel)) &
     (df["Product line"].isin(productos_sel)) &
     (df["Customer type"].isin(clientes_sel)) &
-    (df["Date"] >= fecha_inicio) &
-    (df["Date"] <= fecha_fin)
+    (df["Date"].dt.date >= fecha_inicio) &
+    (df["Date"].dt.date <= fecha_fin)
 ]
+
 # ---------------------------
-# Mostrar datos filtrados
+# Mostrar resultados
 # ---------------------------
+st.subheader("📋 Datos filtrados")
 st.dataframe(df_filtrado)
+
