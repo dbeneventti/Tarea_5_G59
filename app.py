@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-df = pd.read_csv("https://github.com/dbeneventti/Tarea_5_G59/blob/main/data.csv", parse_dates=["Date"])
+df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/refs/heads/main/data.csv", parse_dates=["Date"])
 
 st.title("Dashboard Ventas - Grupo 59")
 
