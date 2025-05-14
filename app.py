@@ -12,7 +12,7 @@ st.set_page_config(layout="wide")
 df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/main/data.csv", parse_dates=["Date"])
 
 # Título centrado y subtítulo
-st.markdown("<h1 style='text-align: center;'>📊 Dashboard Ventas - Grupo 59</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Dashboard Ventas - Grupo 59</h1>", unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center;'>Equipo: Juan Osorio, Javiera Inda, Diego Beneventti, Andrea Angulo</h4>", unsafe_allow_html=True)
 
 # Filtros (todo en la primera fila)
@@ -78,10 +78,10 @@ with col1:
 
 # Gráfico 2: Ingresos por línea de producto
 with col2:
-    st.subheader("Ventas por Producto", loc="center")
+    st.subheader("Ventas por Producto")
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     sns.barplot(data=df_filtrado, x="Product line", y="Total", estimator=sum, errorbar=None, ax=ax2)
-    ax2.set_title("Ingresos por Línea de Producto")
+    ax2.set_title("Ingresos por Línea de Producto", loc="center")
     ax2.set_xlabel("")
     ax2.set_ylabel("Total Ventas")
     plt.xticks(rotation=45)
@@ -90,10 +90,10 @@ with col2:
 
 # Gráfico 3: Distribución de rating
 with col3:
-    st.subheader("Distribución de Calificaciones", loc="center")
+    st.subheader("Distribución de Calificaciones")
     fig3, ax3 = plt.subplots(figsize=(6, 4))
     sns.histplot(df_filtrado["Rating"], bins=20, kde=True, color="skyblue", ax=ax3)
-    ax3.set_title("Distribución de Ratings")
+    ax3.set_title("Distribución de Ratings", loc="center")
     ax3.set_xlabel("Calificación")
     ax3.set_ylabel("Frecuencia")
     ax3.grid(False)
