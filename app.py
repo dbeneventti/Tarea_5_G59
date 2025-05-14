@@ -11,8 +11,9 @@ st.set_page_config(layout="wide")
 # Cargar datos
 df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/main/data.csv", parse_dates=["Date"])
 
-# Título
-st.title("Dashboard Ventas - Grupo 59")
+# Título centrado y subtítulo
+st.markdown("<h1 style='text-align: center;'>📊 Dashboard Ventas - Grupo 59</h1>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center;'>Equipo: Juan Osorio, Javiera Inda, Diego Beneventti, Andrea Angulo</h4>", unsafe_allow_html=True)
 
 # Filtros (todo en la primera fila)
 with st.expander("Filtros", expanded=False):
@@ -66,7 +67,7 @@ with col1:
     ventas_diarias = df_filtrado.groupby("Date")["Total"].sum().reset_index()
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     sns.lineplot(data=ventas_diarias, x="Date", y="Total", marker="o", ax=ax1)
-    ax1.set_title("Ventas Totales por Fecha")
+    ax1.set_title("Ventas Totales por Fecha", loc="center")
     ax1.set_xlabel("Fecha")
     ax1.set_ylabel("Total")
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%b'))
@@ -77,7 +78,7 @@ with col1:
 
 # Gráfico 2: Ingresos por línea de producto
 with col2:
-    st.subheader("Ventas por Producto")
+    st.subheader("Ventas por Producto", loc="center")
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     sns.barplot(data=df_filtrado, x="Product line", y="Total", estimator=sum, errorbar=None, ax=ax2)
     ax2.set_title("Ingresos por Línea de Producto")
@@ -89,7 +90,7 @@ with col2:
 
 # Gráfico 3: Distribución de rating
 with col3:
-    st.subheader("Distribución de Calificaciones")
+    st.subheader("Distribución de Calificaciones", loc="center")
     fig3, ax3 = plt.subplots(figsize=(6, 4))
     sns.histplot(df_filtrado["Rating"], bins=20, kde=True, color="skyblue", ax=ax3)
     ax3.set_title("Distribución de Ratings")
