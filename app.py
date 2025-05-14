@@ -2,37 +2,32 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 
+# Expande layout a toda la pantalla
+st.set_page_config(layout="wide")
+
 # Cargar datos
 df = pd.read_csv("https://raw.githubusercontent.com/dbeneventti/Tarea_5_G59/main/data.csv", parse_dates=["Date"])
 
-# Título del dashboard
+# Título
 st.title("📊 Dashboard Ventas - Grupo 59")
 
-# ---------------------------
 # Filtros
-# ---------------------------
 with st.expander("🔍 Filtros", expanded=False):
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
         ciudades_sel = st.multiselect("Ciudad", df["City"].unique(), default=df["City"].unique())
-
     with col2:
         generos_sel = st.multiselect("Género", df["Gender"].unique(), default=df["Gender"].unique())
-
     with col3:
         pagos_sel = st.multiselect("Pago", df["Payment"].unique(), default=df["Payment"].unique())
-
     with col4:
         productos_sel = st.multiselect("Producto", df["Product line"].unique(), default=df["Product line"].unique())
-
     with col5:
         clientes_sel = st.multiselect("Cliente", df["Customer type"].unique(), default=df["Customer type"].unique())
 
     st.markdown("---")
-
-    # Filtro de fechas con slider (segunda fila)
-    col6, _ = st.columns([2, 3])  # más espacio a la izquierda
+    col6, _ = st.columns([2, 3])
     with col6:
         fecha_min = df["Date"].min().date()
         fecha_max = df["Date"].max().date()
@@ -44,9 +39,7 @@ with st.expander("🔍 Filtros", expanded=False):
             format="DD/MM/YYYY"
         )
 
-# ---------------------------
-# Filtrar datos
-# ---------------------------
+# Filtrado
 df_filtrado = df[
     (df["City"].isin(ciudades_sel)) &
     (df["Gender"].isin(generos_sel)) &
@@ -57,9 +50,8 @@ df_filtrado = df[
     (df["Date"].dt.date <= fecha_fin)
 ]
 
-# ---------------------------
-# Mostrar resultados
-# ---------------------------
+# Mostrar tabla ajustada a ancho completo
 st.subheader("📋 Datos filtrados")
-st.dataframe(df_filtrado)
+st.dataframe(df_filtrado, use_container_width=True)
+
 
