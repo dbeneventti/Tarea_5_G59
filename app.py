@@ -12,19 +12,19 @@ with st.expander("🔍 Filtros", expanded=False):
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        ciudad = st.multiselect("Ciudad", df["City"].unique())
+        ciudades_sel = st.multiselect("Ciudad", df["City"].unique(), default=df["City"].unique())
 
     with col2:
-        genero = st.multiselect("Género", df["Gender"].unique())
+        generos_sel = st.multiselect("Género", df["Gender"].unique(), default=df["Gender"].unique())
 
     with col3:
-        pago = st.multiselect("Pago", df["Payment"].unique())
+        pagos_sel = st.multiselect("Pago", df["Payment"].unique(), default=df["Payment"].unique())
 
     with col4:
-        producto = st.multiselect("Producto", df["Product line"].unique())
+        productos_sel = st.multiselect("Producto", df["Product line"].unique(), default=df["Product line"].unique())
 
     with col5:
-        cliente = st.multiselect("Cliente", df["Customer type"].unique())
+        clientes_sel = st.multiselect("Cliente", df["Customer type"].unique(), default=df["Customer type"].unique())
 
 # Aplicar filtros
 df_filtrado = df[
