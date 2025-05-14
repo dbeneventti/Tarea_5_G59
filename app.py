@@ -29,15 +29,21 @@ with st.expander("🔍 Filtros", expanded=False):
         clientes_sel = st.multiselect("Cliente", df["Customer type"].unique(), default=df["Customer type"].unique())
 
     # ---------------------------
-    # Fila 2: filtro por rango de fechas
+    # Fila 2: filtro por rango de fechas con slider
     # ---------------------------
     st.markdown("---")
     col6, _ = st.columns([2, 3])  # alineado a la izquierda
-
+    
     with col6:
         fecha_min = df["Date"].min()
         fecha_max = df["Date"].max()
-        fecha_inicio, fecha_fin = st.date_input("Rango de fechas", value=(fecha_min, fecha_max), min_value=fecha_min, max_value=fecha_max)
+        fecha_inicio, fecha_fin = st.slider(
+            "Selecciona el rango de fechas",
+            min_value=fecha_min,
+            max_value=fecha_max,
+            value=(fecha_min, fecha_max),
+            format="DD/MM/YYYY"
+        )
 
 # ---------------------------
 # Filtrar datos según todos los filtros
