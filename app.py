@@ -54,10 +54,9 @@ df_filtrado = df[
     (df["Payment"].isin(pagos_sel)) &
     (df["Product line"].isin(productos_sel)) &
     (df["Customer type"].isin(clientes_sel)) &
-    (df["Date"] >= pd.to_datetime(fecha_inicio)) &
-    (df["Date"] <= pd.to_datetime(fecha_fin))
+    (df["Date"] >= fecha_inicio) &
+    (df["Date"] <= fecha_fin)
 ]
-
 # ---------------------------
 # Mostrar datos filtrados
 # ---------------------------
