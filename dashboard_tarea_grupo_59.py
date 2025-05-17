@@ -107,10 +107,13 @@ with col3:
     ax3.grid(False)
     st.pyplot(fig3)
 
-    # Mostrar resumen estadístico debajo del gráfico
-    rating_summary = df_filtrado["Rating"].describe().to_frame().T
-    st.markdown("**Resumen estadístico de las calificaciones:**")
-    st.table(rating_summary)
+    # Boxplot como complemento
+    st.markdown("**Boxplot de calificaciones**")
+    fig_box, ax_box = plt.subplots(figsize=(6, 1.5))
+    sns.boxplot(x=df_filtrado["Rating"], ax=ax_box, color="skyblue", fliersize=3, linewidth=1, boxprops=dict(edgecolor="black"))
+    ax_box.set_xlabel("Calificación")
+    ax_box.set_yticks([])
+    st.pyplot(fig_box)
 
 
 col4, col5, col6 = st.columns(3)
@@ -186,7 +189,7 @@ with col8:
     pivot_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='gross income').fillna(0)
     percent_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='Porcentaje').fillna(0)
 
-    fig8, ax8 = plt.subplots(figsize=(7, 6))
+    fig8, ax8 = plt.subplots(figsize=(6, 4))
     bottom = [0] * len(pivot_values)
     x = range(len(pivot_values))
 
