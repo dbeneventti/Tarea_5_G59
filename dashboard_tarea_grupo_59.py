@@ -45,6 +45,11 @@ df_filtrado = df[
     (df["Date"].dt.date <= fecha_fin)
 ]
 
+
+product_lines = sorted(df["Product line"].unique())
+colors_set2 = sns.color_palette("Set2", n_colors=len(product_lines))
+product_color_map = dict(zip(product_lines, colors_set2))
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -61,13 +66,16 @@ with col1:
 
 with col2:
     fig2, ax2 = plt.subplots(figsize=(6, 4))
+    color_order = df_filtrado["Product line"].dropna().unique()
+    palette = [product_color_map[pl] for pl in color_order]
+
     sns.barplot(
         data=df_filtrado,
         x="Product line",
         y="Total",
         estimator=sum,
         errorbar=None,
-        palette="Set2",
+        palette=palette,
         ax=ax2
     )
     ax2.set_title("Ingresos por Línea de Producto", loc="center")
@@ -178,20 +186,22 @@ with col8:
     pivot_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='gross income').fillna(0)
     percent_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='Porcentaje').fillna(0)
 
-    fig8, ax8 = plt.subplots(figsize=(6, 4))
+    fig8, ax8 = plt.subplots(figsize=(7, 6))
     bottom = [0] * len(pivot_values)
     x = range(len(pivot_values))
-    colors = sns.color_palette('Set2', n_colors=len(pivot_values.columns))
 
     for idx, column in enumerate(pivot_values.columns):
         values = pivot_values[column].values
-        bars = ax8.bar(x, values, bottom=bottom, label=column, color=colors[idx])
+        color = product_color_map.get(column, "gray")
+        bars = ax8.bar(x, values, bottom=bottom, label=column, color=color)
+
         for i, bar in enumerate(bars):
             height = bar.get_height()
             if height > 0:
                 pct = percent_values[column].iloc[i]
                 ax8.text(bar.get_x() + bar.get_width()/2, bottom[i] + height/2,
                          f"{pct:.1f}%", ha='center', va='center', fontsize=8)
+
         bottom = [bottom[i] + values[i] for i in range(len(values))]
 
     ax8.set_xticks(x)
