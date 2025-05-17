@@ -65,6 +65,20 @@ with col1:
     st.pyplot(fig1)
 
 with col2:
+    ventas_ciudad = df_filtrado.groupby("City")["Total"].sum().sort_values().reset_index()
+    fig9, ax9 = plt.subplots(figsize=(6, 4))
+    sns.barplot(data=ventas_ciudad, y="City", x="Total", palette="pastel", ax=ax9)
+    ax9.set_title("Ventas Totales por Ciudad", loc="center")
+    ax9.set_xlabel("Total Ventas")
+    ax9.set_ylabel("Ciudad")
+
+    for bar in ax9.patches:
+        bar.set_edgecolor("black")
+        bar.set_linewidth(1)
+
+    st.pyplot(fig2)
+
+with col3:
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     color_order = df_filtrado["Product line"].dropna().unique()
     palette = [product_color_map[pl] for pl in color_order]
@@ -87,9 +101,12 @@ with col2:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
-    st.pyplot(fig2)
+    st.pyplot(fig3)
 
-with col3:
+
+col4, col5, col6 = st.columns(3)
+
+with col4:
     fig3, ax3 = plt.subplots(figsize=(6, 4))
     sns.histplot(
         df_filtrado["Rating"], 
@@ -105,7 +122,7 @@ with col3:
     ax3.set_ylabel("Densidad")
     ax3.set_xlim(df_filtrado["Rating"].min(), df_filtrado["Rating"].max())
     ax3.grid(False)
-    st.pyplot(fig3)
+    st.pyplot(fig4)
 
     # Boxplot como complemento
     fig_box, ax_box = plt.subplots(figsize=(6, 0.5))
@@ -115,9 +132,7 @@ with col3:
     st.pyplot(fig_box)
 
 
-col4, col5, col6 = st.columns(3)
-
-with col4:
+with col5:
     total_spend = df_filtrado.groupby("Customer type")["Total"].sum().reset_index()
     fig4, ax4 = plt.subplots(figsize=(6, 4))
     sns.barplot(
@@ -137,18 +152,24 @@ with col4:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
-    st.pyplot(fig4)
+    st.pyplot(fig5)
 
-with col5:
+with col6:
     fig5, ax5 = plt.subplots(figsize=(6, 4))
     sns.scatterplot(data=df_filtrado, x="cogs", y="gross income", hue="Branch", alpha=0.7, ax=ax5)
     ax5.set_title("COGS vs. Ingreso Bruto", loc="center")
     ax5.set_xlabel("COGS")
     ax5.set_ylabel("Ingreso Bruto")
     ax5.grid(False)
-    st.pyplot(fig5)
+    st.pyplot(fig6)
 
-with col6:
+
+
+
+col7, col8, col9 = st.columns(3)
+
+
+with col7:
     payment_counts = df_filtrado['Payment'].value_counts().reset_index()
     payment_counts.columns = ['Método de Pago', 'Frecuencia']
     fig6, ax6 = plt.subplots(figsize=(6, 4))
@@ -165,21 +186,19 @@ with col6:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
-    st.pyplot(fig6)
+    st.pyplot(fig7)
 
 
-col7, col8, col9 = st.columns(3)
-
-with col7:
+with col8:
     numeric_cols = ['Unit price', 'Quantity', 'Tax 5%', 'Total', 'cogs', 'gross income', 'Rating']
     df_numeric = df_filtrado[numeric_cols]
     correlation_matrix = df_numeric.corr()
     fig7, ax7 = plt.subplots(figsize=(6, 4))
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.5, square=True, ax=ax7)
     ax7.set_title("Matriz de Correlación", loc="center")
-    st.pyplot(fig7)
+    st.pyplot(fig8)
 
-with col8:
+with col9:
     income_by_branch_product = df_filtrado.groupby(['Branch', 'Product line'])['gross income'].sum().reset_index()
     branch_totals = income_by_branch_product.groupby('Branch')['gross income'].sum()
     income_by_branch_product['Porcentaje'] = income_by_branch_product.apply(
@@ -212,18 +231,6 @@ with col8:
     ax8.set_ylabel("Ingreso Bruto Total")
     ax8.legend(title='Línea de Producto', bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
-    st.pyplot(fig8)
-
-with col9:
-    ventas_ciudad = df_filtrado.groupby("City")["Total"].sum().sort_values().reset_index()
-    fig9, ax9 = plt.subplots(figsize=(6, 4))
-    sns.barplot(data=ventas_ciudad, y="City", x="Total", palette="pastel", ax=ax9)
-    ax9.set_title("Ventas Totales por Ciudad", loc="center")
-    ax9.set_xlabel("Total Ventas")
-    ax9.set_ylabel("Ciudad")
-
-    for bar in ax9.patches:
-        bar.set_edgecolor("black")
-        bar.set_linewidth(1)
-
     st.pyplot(fig9)
+
+
