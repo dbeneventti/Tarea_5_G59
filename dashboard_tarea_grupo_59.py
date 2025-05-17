@@ -69,12 +69,26 @@ with col2:
 
 with col3:
     fig3, ax3 = plt.subplots(figsize=(6, 4))
-    sns.histplot(df_filtrado["Rating"], bins=20, kde=True, color="skyblue", ax=ax3)
-    ax3.set_title("Distribución de Ratings", loc="center")
+    sns.histplot(
+        df_filtrado["Rating"], 
+        bins=20, 
+        color="skyblue", 
+        edgecolor="black", 
+        stat="density", 
+        ax=ax3
+    )
+    sns.kdeplot(df_filtrado["Rating"], color="red", linewidth=2, ax=ax3)
+    ax3.set_title("Distribución de Calificaciones de Clientes", loc="center")
     ax3.set_xlabel("Calificación")
-    ax3.set_ylabel("Frecuencia")
+    ax3.set_ylabel("Densidad")
+    ax3.set_xlim(df_filtrado["Rating"].min(), df_filtrado["Rating"].max())
     ax3.grid(False)
     st.pyplot(fig3)
+
+    # Mostrar resumen estadístico debajo del gráfico
+    rating_summary = df_filtrado["Rating"].describe().to_frame().T
+    st.markdown("**Resumen estadístico de las calificaciones:**")
+    st.table(rating_summary)
 
 
 col4, col5, col6 = st.columns(3)
