@@ -168,7 +168,7 @@ with col6:
     st.pyplot(fig6)
 
 
-col7, col8 = st.columns(2)
+col7, col8, col9 = st.columns(3)
 
 with col7:
     numeric_cols = ['Unit price', 'Quantity', 'Tax 5%', 'Total', 'cogs', 'gross income', 'Rating']
@@ -213,3 +213,17 @@ with col8:
     ax8.legend(title='Línea de Producto', bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     st.pyplot(fig8)
+
+with col9:
+    ventas_ciudad = df_filtrado.groupby("City")["Total"].sum().sort_values().reset_index()
+    fig9, ax9 = plt.subplots(figsize=(6, 4))
+    sns.barplot(data=ventas_ciudad, y="City", x="Total", palette="pastel", ax=ax9)
+    ax9.set_title("Ventas Totales por Ciudad", loc="center")
+    ax9.set_xlabel("Total Ventas")
+    ax9.set_ylabel("Ciudad")
+
+    for bar in ax9.patches:
+        bar.set_edgecolor("black")
+        bar.set_linewidth(1)
+
+    st.pyplot(fig9)
