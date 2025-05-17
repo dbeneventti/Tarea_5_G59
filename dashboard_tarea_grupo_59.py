@@ -66,20 +66,20 @@ with col1:
 
 with col2:
     ventas_ciudad = df_filtrado.groupby("City")["Total"].sum().sort_values().reset_index()
-    fig9, ax9 = plt.subplots(figsize=(6, 4))
-    sns.barplot(data=ventas_ciudad, y="City", x="Total", palette="pastel", ax=ax9)
-    ax9.set_title("Ventas Totales por Ciudad", loc="center")
-    ax9.set_xlabel("Total Ventas")
-    ax9.set_ylabel("Ciudad")
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    sns.barplot(data=ventas_ciudad, y="City", x="Total", palette="pastel", ax=ax2)
+    ax2.set_title("Ventas Totales por Ciudad", loc="center")
+    ax2.set_xlabel("Total Ventas")
+    ax2.set_ylabel("Ciudad")
 
-    for bar in ax9.patches:
+    for bar in ax2.patches:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
     st.pyplot(fig2)
 
 with col3:
-    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    fig3, ax3 = plt.subplots(figsize=(6, 4))
     color_order = df_filtrado["Product line"].dropna().unique()
     palette = [product_color_map[pl] for pl in color_order]
 
@@ -90,14 +90,14 @@ with col3:
         estimator=sum,
         errorbar=None,
         palette=palette,
-        ax=ax2
+        ax=ax3
     )
-    ax2.set_title("Ingresos por Línea de Producto", loc="center")
-    ax2.set_ylabel("Total Ventas")
-    ax2.set_xlabel("")
-    ax2.set_xticklabels(ax2.get_xticklabels(), rotation=90)
+    ax3.set_title("Ingresos por Línea de Producto", loc="center")
+    ax3.set_ylabel("Total Ventas")
+    ax3.set_xlabel("")
+    ax3.set_xticklabels(ax2.get_xticklabels(), rotation=90)
 
-    for bar in ax2.patches:
+    for bar in ax3.patches:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
@@ -107,16 +107,16 @@ with col3:
 col4, col5, col6 = st.columns(3)
 
 with col4:
-    fig3, ax3 = plt.subplots(figsize=(6, 4))
+    fig4, ax4 = plt.subplots(figsize=(6, 4))
     sns.histplot(
         df_filtrado["Rating"], 
         bins=20, 
         color="skyblue", 
         edgecolor="black", 
         stat="density", 
-        ax=ax3
+        ax=ax4
     )
-    sns.kdeplot(df_filtrado["Rating"], color="red", linewidth=2, ax=ax3)
+    sns.kdeplot(df_filtrado["Rating"], color="red", linewidth=2, ax=ax4)
     ax3.set_title("Distribución de Calificaciones de Clientes", loc="center")
     ax3.set_xlabel("Calificación")
     ax3.set_ylabel("Densidad")
@@ -134,33 +134,33 @@ with col4:
 
 with col5:
     total_spend = df_filtrado.groupby("Customer type")["Total"].sum().reset_index()
-    fig4, ax4 = plt.subplots(figsize=(6, 4))
+    fig5, ax5 = plt.subplots(figsize=(6, 4))
     sns.barplot(
         data=total_spend,
         x="Customer type",
         y="Total",
         palette="Set3",
-        ax=ax4
+        ax=ax5
     )
-    ax4.set_title("Gasto Total por Tipo de Cliente", loc="center")
-    ax4.set_ylabel("Gasto Total")
+    ax5.set_title("Gasto Total por Tipo de Cliente", loc="center")
+    ax5.set_ylabel("Gasto Total")
     
     for i, row in total_spend.iterrows():
-        ax4.text(i, row["Total"] + 100, f"{row['Total']:.2f}", ha='center')
+        ax5.text(i, row["Total"] + 100, f"{row['Total']:.2f}", ha='center')
 
-    for bar in ax4.patches:
+    for bar in ax5.patches:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
     st.pyplot(fig5)
 
 with col6:
-    fig5, ax5 = plt.subplots(figsize=(6, 4))
-    sns.scatterplot(data=df_filtrado, x="cogs", y="gross income", hue="Branch", alpha=0.7, ax=ax5)
-    ax5.set_title("COGS vs. Ingreso Bruto", loc="center")
-    ax5.set_xlabel("COGS")
-    ax5.set_ylabel("Ingreso Bruto")
-    ax5.grid(False)
+    fig6, ax6 = plt.subplots(figsize=(6, 4))
+    sns.scatterplot(data=df_filtrado, x="cogs", y="gross income", hue="Branch", alpha=0.7, ax=ax6)
+    ax6.set_title("COGS vs. Ingreso Bruto", loc="center")
+    ax6.set_xlabel("COGS")
+    ax6.set_ylabel("Ingreso Bruto")
+    ax6.grid(False)
     st.pyplot(fig6)
 
 
@@ -172,17 +172,17 @@ col7, col8, col9 = st.columns(3)
 with col7:
     payment_counts = df_filtrado['Payment'].value_counts().reset_index()
     payment_counts.columns = ['Método de Pago', 'Frecuencia']
-    fig6, ax6 = plt.subplots(figsize=(6, 4))
+    fig7, ax7 = plt.subplots(figsize=(6, 4))
     sns.barplot(
         data=payment_counts,
         x='Frecuencia',
         y='Método de Pago',
         palette='Set2',
-        ax=ax6
+        ax=ax7
     )
     ax6.set_title('Métodos de Pago Preferidos', loc="center")
 
-    for bar in ax6.patches:
+    for bar in ax7.patches:
         bar.set_edgecolor("black")
         bar.set_linewidth(1)
 
@@ -193,9 +193,9 @@ with col8:
     numeric_cols = ['Unit price', 'Quantity', 'Tax 5%', 'Total', 'cogs', 'gross income', 'Rating']
     df_numeric = df_filtrado[numeric_cols]
     correlation_matrix = df_numeric.corr()
-    fig7, ax7 = plt.subplots(figsize=(6, 4))
-    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.5, square=True, ax=ax7)
-    ax7.set_title("Matriz de Correlación", loc="center")
+    fig8, ax8 = plt.subplots(figsize=(6, 4))
+    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.5, square=True, ax=ax8)
+    ax8.set_title("Matriz de Correlación", loc="center")
     st.pyplot(fig8)
 
 with col9:
@@ -207,7 +207,7 @@ with col9:
     pivot_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='gross income').fillna(0)
     percent_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='Porcentaje').fillna(0)
 
-    fig8, ax8 = plt.subplots(figsize=(6, 4))
+    fig9, ax9 = plt.subplots(figsize=(6, 4))
     bottom = [0] * len(pivot_values)
     x = range(len(pivot_values))
 
@@ -220,16 +220,16 @@ with col9:
             height = bar.get_height()
             if height > 0:
                 pct = percent_values[column].iloc[i]
-                ax8.text(bar.get_x() + bar.get_width()/2, bottom[i] + height/2,
+                ax9.text(bar.get_x() + bar.get_width()/2, bottom[i] + height/2,
                          f"{pct:.1f}%", ha='center', va='center', fontsize=8)
 
         bottom = [bottom[i] + values[i] for i in range(len(values))]
 
-    ax8.set_xticks(x)
-    ax8.set_xticklabels(pivot_values.index)
-    ax8.set_title('Ingreso Bruto por Sucursal y Producto (%)', loc="center")
-    ax8.set_ylabel("Ingreso Bruto Total")
-    ax8.legend(title='Línea de Producto', bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax9.set_xticks(x)
+    ax9.set_xticklabels(pivot_values.index)
+    ax9.set_title('Ingreso Bruto por Sucursal y Producto (%)', loc="center")
+    ax9.set_ylabel("Ingreso Bruto Total")
+    ax9.legend(title='Línea de Producto', bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     st.pyplot(fig9)
 
