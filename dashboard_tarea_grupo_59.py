@@ -95,7 +95,7 @@ with col3:
     ax3.set_title("Ingresos por Línea de Producto", loc="center")
     ax3.set_ylabel("Total Ventas")
     ax3.set_xlabel("")
-    ax3.set_xticklabels(ax2.get_xticklabels(), rotation=90)
+    ax3.set_xticklabels(ax3.get_xticklabels(), rotation=90)
 
     for bar in ax3.patches:
         bar.set_edgecolor("black")
@@ -117,11 +117,11 @@ with col4:
         ax=ax4
     )
     sns.kdeplot(df_filtrado["Rating"], color="red", linewidth=2, ax=ax4)
-    ax3.set_title("Distribución de Calificaciones de Clientes", loc="center")
-    ax3.set_xlabel("Calificación")
-    ax3.set_ylabel("Densidad")
-    ax3.set_xlim(df_filtrado["Rating"].min(), df_filtrado["Rating"].max())
-    ax3.grid(False)
+    ax4.set_title("Distribución de Calificaciones de Clientes", loc="center")
+    ax4.set_xlabel("Calificación")
+    ax4.set_ylabel("Densidad")
+    ax4.set_xlim(df_filtrado["Rating"].min(), df_filtrado["Rating"].max())
+    ax4.grid(False)
     st.pyplot(fig4)
 
     # Boxplot como complemento
@@ -180,7 +180,7 @@ with col7:
         palette='Set2',
         ax=ax7
     )
-    ax6.set_title('Métodos de Pago Preferidos', loc="center")
+    ax7.set_title('Métodos de Pago Preferidos', loc="center")
 
     for bar in ax7.patches:
         bar.set_edgecolor("black")
@@ -214,7 +214,7 @@ with col9:
     for idx, column in enumerate(pivot_values.columns):
         values = pivot_values[column].values
         color = product_color_map.get(column, "gray")
-        bars = ax8.bar(x, values, bottom=bottom, label=column, color=color)
+        bars = ax9.bar(x, values, bottom=bottom, label=column, color=color)
 
         for i, bar in enumerate(bars):
             height = bar.get_height()
