@@ -109,7 +109,7 @@ with col3:
 
     # Boxplot como complemento
     st.markdown("**Boxplot de calificaciones**")
-    fig_box, ax_box = plt.subplots(figsize=(6, 1.5))
+    fig_box, ax_box = plt.subplots(figsize=(6, 0.5))
     sns.boxplot(x=df_filtrado["Rating"], ax=ax_box, color="skyblue", fliersize=3, linewidth=1, boxprops=dict(edgecolor="black"))
     ax_box.set_xlabel("Calificación")
     ax_box.set_yticks([])
