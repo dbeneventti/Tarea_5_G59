@@ -81,7 +81,7 @@ with col2:
     ax2.set_title("Ingresos por Línea de Producto", loc="center")
     ax2.set_ylabel("Total Ventas")
     ax2.set_xlabel("")
-    ax2.set_xticklabels(ax2.get_xticklabels(), rotation=40)
+    ax2.set_xticklabels(ax2.get_xticklabels(), rotation=90)
 
     for bar in ax2.patches:
         bar.set_edgecolor("black")
