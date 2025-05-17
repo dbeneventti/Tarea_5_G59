@@ -108,7 +108,6 @@ with col3:
     st.pyplot(fig3)
 
     # Boxplot como complemento
-    st.markdown("**Boxplot de calificaciones**")
     fig_box, ax_box = plt.subplots(figsize=(6, 0.5))
     sns.boxplot(x=df_filtrado["Rating"], ax=ax_box, color="skyblue", fliersize=3, linewidth=1, boxprops=dict(edgecolor="black"))
     ax_box.set_xlabel("Calificación")
