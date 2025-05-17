@@ -61,10 +61,24 @@ with col1:
 
 with col2:
     fig2, ax2 = plt.subplots(figsize=(6, 4))
-    sns.barplot(data=df_filtrado, x="Product line", y="Total", estimator=sum, errorbar=None, ax=ax2)
+    sns.barplot(
+        data=df_filtrado,
+        x="Product line",
+        y="Total",
+        estimator=sum,
+        errorbar=None,
+        palette="Set2",
+        ax=ax2
+    )
     ax2.set_title("Ingresos por Línea de Producto", loc="center")
     ax2.set_ylabel("Total Ventas")
-    plt.xticks(rotation=45)
+    ax2.set_xlabel("")
+    ax2.set_xticklabels(ax2.get_xticklabels(), rotation=45)
+
+    for bar in ax2.patches:
+        bar.set_edgecolor("black")
+        bar.set_linewidth(1)
+
     st.pyplot(fig2)
 
 with col3:
@@ -96,11 +110,23 @@ col4, col5, col6 = st.columns(3)
 with col4:
     total_spend = df_filtrado.groupby("Customer type")["Total"].sum().reset_index()
     fig4, ax4 = plt.subplots(figsize=(6, 4))
-    sns.barplot(data=total_spend, x="Customer type", y="Total", hue="Customer type", palette="Set3", legend=False, ax=ax4)
+    sns.barplot(
+        data=total_spend,
+        x="Customer type",
+        y="Total",
+        palette="Set3",
+        ax=ax4
+    )
     ax4.set_title("Gasto Total por Tipo de Cliente", loc="center")
+    ax4.set_ylabel("Gasto Total")
+    
     for i, row in total_spend.iterrows():
         ax4.text(i, row["Total"] + 100, f"{row['Total']:.2f}", ha='center')
-    ax4.set_ylabel("Gasto Total")
+
+    for bar in ax4.patches:
+        bar.set_edgecolor("black")
+        bar.set_linewidth(1)
+
     st.pyplot(fig4)
 
 with col5:
@@ -116,8 +142,19 @@ with col6:
     payment_counts = df_filtrado['Payment'].value_counts().reset_index()
     payment_counts.columns = ['Método de Pago', 'Frecuencia']
     fig6, ax6 = plt.subplots(figsize=(6, 4))
-    sns.barplot(data=payment_counts, x='Frecuencia', y='Método de Pago', palette='Set2', ax=ax6)
+    sns.barplot(
+        data=payment_counts,
+        x='Frecuencia',
+        y='Método de Pago',
+        palette='Set2',
+        ax=ax6
+    )
     ax6.set_title('Métodos de Pago Preferidos', loc="center")
+
+    for bar in ax6.patches:
+        bar.set_edgecolor("black")
+        bar.set_linewidth(1)
+
     st.pyplot(fig6)
 
 
@@ -127,7 +164,7 @@ with col7:
     numeric_cols = ['Unit price', 'Quantity', 'Tax 5%', 'Total', 'cogs', 'gross income', 'Rating']
     df_numeric = df_filtrado[numeric_cols]
     correlation_matrix = df_numeric.corr()
-    fig7, ax7 = plt.subplots(figsize=(7, 6))
+    fig7, ax7 = plt.subplots(figsize=(6, 4))
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.5, square=True, ax=ax7)
     ax7.set_title("Matriz de Correlación", loc="center")
     st.pyplot(fig7)
@@ -141,7 +178,7 @@ with col8:
     pivot_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='gross income').fillna(0)
     percent_values = income_by_branch_product.pivot(index='Branch', columns='Product line', values='Porcentaje').fillna(0)
 
-    fig8, ax8 = plt.subplots(figsize=(7, 6))
+    fig8, ax8 = plt.subplots(figsize=(6, 4))
     bottom = [0] * len(pivot_values)
     x = range(len(pivot_values))
     colors = sns.color_palette('Set2', n_colors=len(pivot_values.columns))
